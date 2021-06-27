@@ -5,8 +5,8 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class IHMPile extends JFrame implements ActionListener{
-    private JTextField donnee = new JTextField(6);
-    private JTextField sommet = new JTextField(6);
+    private JTextField donnee  = new JTextField(6);
+    private JTextField sommet  = new JTextField(6);
     private JLabel     contenu = new JLabel("[]");
 
     private Pile p;
@@ -36,17 +36,30 @@ public class IHMPile extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent ae){
         if(ae.getActionCommand().equals("empiler")){
-
-            // à compléter
-
-            // en cas d'exception
-            //contenu.setText( /* à compléter */"" + " estPleine !");
+            Object ObjetAEmpiler;
+            
+            try
+            {
+                ObjetAEmpiler = donnee.getText();
+                p.empiler(ObjetAEmpiler);
+                contenu.setText(p.toString());
+                donnee.setText("");
+            }
+            catch(PilePleineException ppe)
+            {
+                contenu.setText("La pile est Pleine !");
+            }
 
         }else{
-
-            // à compléter
-            // en cas d'exception
-            //contenu.setText( /* à compléter */"" + " estVide !");
+            try
+            {
+                p.depiler();
+                contenu.setText(p.toString());
+            }
+            catch(PileVideException pve)
+            {
+                contenu.setText("La pile est Vide !");
+            }
         }
     }
 

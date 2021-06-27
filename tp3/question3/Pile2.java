@@ -9,33 +9,98 @@ public class Pile2<T> implements PileI<T>{
     /** par délégation : utilisation de la class Stack */
     private Stack<T> stk;
     /** la capacité de la pile */
-    private int capacité;
+    private int capacite;
 
     /** Création d'une pile.
      * @param taille la "taille maximale" de la pile, doit être > 0
      */
     public Pile2(int taille){
-        // à compléter
+        if(taille <= 0){
+            capacite = PileI.CAPACITE_PAR_DEFAUT;
+        }else{
+            capacite = taille;
+        }
+        
+        stk = new Stack();
     }
 
     public Pile2(){
-        // à compléter
+        this(0);
     }
 
     public void empiler(T o) throws PilePleineException{
-        // à compléter
+        if(estPleine()){
+            throw new PilePleineException();
+        }
+        stk.push(o);
     }
 
     public T depiler() throws PileVideException{
-        // à compléter
+        if(estVide()){
+            throw new PileVideException();
+        }
+        return stk.pop();
     }
 
     public T sommet() throws PileVideException{
-        // à compléter
+        if(estVide()){
+            throw new PileVideException();
+        }
+        return stk.peek();
     }
-
-    // recopier ici toutes les autres méthodes
-    // qui ne sont pas modifiées en fonction
-    // du type des éléments de la pile
+    
+    public boolean estPleine(){
+        if(stk.size() == capacite){
+            return true;
+        }
+        return false;
+    }
+    
+    public int capacite(){
+        return capacite;
+    }
+    
+    public int taille(){
+        return stk.size();
+    }
+    
+    public boolean estVide(){
+        if(stk.size() == 0){
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean equals(Object o){
+        Stack<T> currentStakc = this.stk;
+        Stack<T> compareAgainstStack = ((Pile2) o).stk;
+        
+        if(this.capacite != ((Pile2) o).capacite){
+            return false;
+        }
+    
+        
+        for (int i = currentStakc.size() - 1; i >= 0; i--) {
+            if (!currentStakc.pop().equals(compareAgainstStack.pop()))
+                return false;
+        }
+        
+        return true;
+    }
+    
+    public int hashCode(){
+        return toString().hashCode();
+    }
+    
+    public String toString(){
+        String s = "[";
+        for (int i = this.taille() - 1; i >= 0; i--) {
+            s += this.stk.elementAt(i).toString();
+            if (i > 0)
+                s += ", ";
+        }
+        return s + "]";
+    }
+    
 
 } // Pile2
